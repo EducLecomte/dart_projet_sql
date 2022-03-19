@@ -102,7 +102,8 @@ class IHMprincipale {
       print("1- Création des tables de la BDD");
       print("2- Verification des tables de la BDD");
       print("3- Supprimer une table dans la BDD");
-      print("4- Supprimer toutes les tables dans la BDD");
+      print("4- Supprimer une table dans la BDD");
+      print("5- Supprimer toutes les tables dans la BDD");
       print("0- Quitter");
       choix = IHMprincipale.choixMenu(4);
       if (choix == 1) {
@@ -110,19 +111,23 @@ class IHMprincipale {
       } else if (choix == 2) {
         IHMprincipale.checkTable();
       } else if (choix == 3) {
-        IHMprincipale.checkTable();
+        IHMprincipale.selectTable();
       } else if (choix == 4) {
+        IHMprincipale.checkTable();
+      } else if (choix == 5) {
         IHMprincipale.checkTable();
       }
     }
   }
 
+  // action pour creer les tables
   static void createTable() async {
     print("Création des tables manquantes dans la BDD ...");
     await DBConfig.createTables();
     print("Fin de l'opération.");
   }
 
+// action pour vérifier les tables
   static void checkTable() async {
     print("Verification des tables dans la BDD ...");
     if (await DBConfig.checkTables()) {
@@ -131,6 +136,35 @@ class IHMprincipale {
     print("Fin de l'opération.");
   }
 
-  static void deleteTable() async {}
-  static void deleteAllTables() async {}
+// action pour afficher les tables
+  static void selectTable() async {
+    List<String> listTable = await DBConfig.selectTables();
+    print("Liste des tables :");
+    for (var table in listTable) {
+      print(table);
+    }
+    print("Fin de l'opération.");
+  }
+
+// action pour supprimer une table
+  static void deleteTable() async {
+    print("Quelle table voulez vous supprimer ?");
+    String table = IHMprincipale.saisieString();
+    if (IHMprincipale.confirmation()) {
+      DBConfig.dropTable(table);
+      print("Table supprimée.");
+    } else {
+      print("Annulation de l'opération.");
+    }
+  }
+
+// action pour supprimer les tables
+  static void deleteAllTables() async {
+    if (IHMprincipale.confirmation()) {
+      DBConfig.dropAllTable();
+      print("Table supprimée.");
+    } else {
+      print("Annulation de l'opération.");
+    }
+  }
 }

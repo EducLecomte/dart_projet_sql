@@ -85,6 +85,29 @@ class DBConfig {
     return checkAll;
   }
 
+  // retourne la liste des noms des tables dans la BDD;
+  static Future<List<String>> selectTables() async {
+    List<String> listTable = [];
+    try {
+      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      try {
+        String requete = "SHOW TABLES;";
+        Results reponse = await conn.query(requete);
+        for (var rows in reponse) {
+          for (var fields in rows) {
+            listTable.add(fields);
+          }
+        }
+      } catch (e) {
+        print(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      print(e.toString());
+    }
+    return listTable;
+  }
+
   // permet de supprimer une table via son nom passé en parametre, si elle existe dans la database
   static Future<void> dropTable(String table) async {
     try {
