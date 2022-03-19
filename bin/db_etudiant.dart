@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:mysql1/mysql1.dart';
 
 import 'db_config.dart';
@@ -13,11 +15,11 @@ class DBEtudiant {
         Results reponse = await conn.query(requete);
         etu = Etudiant(reponse.first['id'], reponse.first['name'], reponse.first['email'], reponse.first['age']);
       } catch (e) {
-        print(e);
+        log(e.toString());
       }
       conn.close();
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
 
     return etu;
@@ -30,11 +32,11 @@ class DBEtudiant {
         String requete = "INSERT INTO Etudiants (name, email, age) VALUES('" + nom + "', '" + email + "', '" + age.toString() + "');";
         await conn.query(requete);
       } catch (e) {
-        print(e);
+        log(e.toString());
       }
       conn.close();
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 
@@ -46,11 +48,11 @@ class DBEtudiant {
         String requete = "UPDATE Etudiants SET nom = '" + nom + ", email = '" + email + ", age = '" + age.toString() + ", ' WHERE id='" + id.toString() + "'";
         await conn.query(requete);
       } catch (e) {
-        print(e);
+        log(e.toString());
       }
       conn.close();
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 
@@ -62,11 +64,11 @@ class DBEtudiant {
         String requete = "DELETE FROM Etudiants WHERE id='" + id.toString() + "'";
         await conn.query(requete);
       } catch (e) {
-        print(e);
+        log(e.toString());
       }
       conn.close();
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 

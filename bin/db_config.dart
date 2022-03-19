@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:mysql1/mysql1.dart';
 
 import 'etudiant.dart';
@@ -115,7 +117,7 @@ class DBConfig {
       try {
         await conn.query("DROP TABLES IF EXISTS " + table + ";");
       } catch (e) {
-        print(e);
+        log(e.toString());
       }
       conn.close();
     } catch (e) {
@@ -136,12 +138,12 @@ class DBConfig {
           }
         }
       } catch (e) {
-        print(e);
+        log(e.toString());
       }
 
       conn.close();
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 
@@ -152,11 +154,11 @@ class DBConfig {
       try {
         reponse = await conn.query(requete);
       } catch (e) {
-        print(e);
+        log(e.toString());
       }
       conn.close();
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
     return reponse;
   }
