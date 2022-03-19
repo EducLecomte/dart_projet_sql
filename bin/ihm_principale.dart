@@ -74,7 +74,7 @@ class IHMprincipale {
 
   // methode des menus et actions
   // menu d'accueil
-  static int menu() {
+  static Future<int> menu() async {
     int choix = -1;
     while (choix != 0) {
       print("> Que voulez vous faire ?");
@@ -84,51 +84,52 @@ class IHMprincipale {
       print("0- Quitter");
       choix = IHMprincipale.choixMenu(3);
       if (choix == 1) {
-        IHMprincipale.menuBDD();
+        await IHMprincipale.menuBDD();
       } else if (choix == 2) {
-        IHMEtudiants.menu();
+        await IHMEtudiants.menu();
       } else if (choix == 3) {
-        IHMEnseignant.menu();
+        await IHMEnseignant.menu();
       }
     }
     return 0;
   }
 
   // menu pour la gestion basic de la BDD
-  static void menuBDD() {
+  static Future<void> menuBDD() async {
     int choix = -1;
     while (choix != 0) {
       print("> Que voulez vous faire ?");
       print("1- Création des tables de la BDD");
       print("2- Verification des tables de la BDD");
-      print("3- Supprimer une table dans la BDD");
+      print("3- Afficher les tables de la BDD");
       print("4- Supprimer une table dans la BDD");
       print("5- Supprimer toutes les tables dans la BDD");
       print("0- Quitter");
-      choix = IHMprincipale.choixMenu(4);
+      choix = IHMprincipale.choixMenu(5);
       if (choix == 1) {
-        IHMprincipale.createTable();
+        await IHMprincipale.createTable();
       } else if (choix == 2) {
-        IHMprincipale.checkTable();
+        await IHMprincipale.checkTable();
       } else if (choix == 3) {
-        IHMprincipale.selectTable();
+        await IHMprincipale.selectTable();
       } else if (choix == 4) {
-        IHMprincipale.checkTable();
+        await IHMprincipale.checkTable();
       } else if (choix == 5) {
-        IHMprincipale.checkTable();
+        await IHMprincipale.checkTable();
       }
     }
+    print("Fin de l'action.");
   }
 
   // action pour creer les tables
-  static void createTable() async {
+  static Future<void> createTable() async {
     print("Création des tables manquantes dans la BDD ...");
     await DBConfig.createTables();
     print("Fin de l'opération.");
   }
 
 // action pour vérifier les tables
-  static void checkTable() async {
+  static Future<void> checkTable() async {
     print("Verification des tables dans la BDD ...");
     if (await DBConfig.checkTables()) {
       print("Toutes les tables sont présentes dans la BDD.");
@@ -137,7 +138,7 @@ class IHMprincipale {
   }
 
 // action pour afficher les tables
-  static void selectTable() async {
+  static Future<void> selectTable() async {
     List<String> listTable = await DBConfig.selectTables();
     print("Liste des tables :");
     for (var table in listTable) {
@@ -147,7 +148,7 @@ class IHMprincipale {
   }
 
 // action pour supprimer une table
-  static void deleteTable() async {
+  static Future<void> deleteTable() async {
     print("Quelle table voulez vous supprimer ?");
     String table = IHMprincipale.saisieString();
     if (IHMprincipale.confirmation()) {
@@ -159,7 +160,7 @@ class IHMprincipale {
   }
 
 // action pour supprimer les tables
-  static void deleteAllTables() async {
+  static Future<void> deleteAllTables() async {
     if (IHMprincipale.confirmation()) {
       DBConfig.dropAllTable();
       print("Table supprimée.");

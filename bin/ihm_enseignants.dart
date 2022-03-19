@@ -1,7 +1,7 @@
 import 'ihm_principale.dart';
 
 class IHMEnseignant {
-  static void menu() {
+  static Future<void> menu() async {
     int choix = -1;
     while (choix != 0) {
       print("Menu - Gestion Enseignants");
