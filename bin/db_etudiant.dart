@@ -25,6 +25,26 @@ class DBEtudiant {
     return etu;
   }
 
+  static Future<List<Etudiant>> selectAllEtudiants() async {
+    List<Etudiant> listeEtu = [];
+    try {
+      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      try {
+        String requete = "SELECT * FROM Etudiants;";
+        Results reponse = await conn.query(requete);
+        Etudiant etu = Etudiant(reponse.first['id'], reponse.first['name'], reponse.first['email'], reponse.first['age']);
+        listeEtu.add(etu);
+      } catch (e) {
+        log(e.toString());
+      }
+      conn.close();
+    } catch (e) {
+      log(e.toString());
+    }
+
+    return listeEtu;
+  }
+
   static Future<void> insertEtudiant(String nom, String email, int age) async {
     try {
       MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());

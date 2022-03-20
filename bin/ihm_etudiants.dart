@@ -46,7 +46,7 @@ class IHMEtudiants {
       if (choix == 1) {
         await IHMEtudiants.selectEtudiant();
       } else if (choix == 2) {
-        print("Fonction non implémentée.");
+        await IHMEtudiants.selectAllEtudiants();
       }
     }
     print("Retour menu précédent.");
@@ -101,23 +101,32 @@ class IHMEtudiants {
   static Future<void> selectEtudiant() async {
     print("Quelle Etudiant voulez vous afficher ?");
     int id = IHMprincipale.saisieID();
-    if (IHMprincipale.confirmation()) {
-      Etudiant etu = await DBEtudiant.selectEtudiant(id);
-      if (!etu.estNull()) {
-        IHMprincipale.afficherUneDonnee(etu);
-        print("Fin de l'opération.");
-        print("--------------------------------------------------");
-      } else {
-        print("L'etudiant $id n'existe pas");
-        print("Fin de l'opération.");
-        print("--------------------------------------------------");
-      }
-      await Future.delayed(Duration(seconds: 1));
-    } else {
-      print("Annulation de l'opération.");
+    Etudiant etu = await DBEtudiant.selectEtudiant(id);
+    if (!etu.estNull()) {
+      IHMprincipale.afficherUneDonnee(etu);
+      print("Fin de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+    } else {
+      print("L'etudiant $id n'existe pas");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
     }
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  // action pour afficher les Etudiants
+  static Future<void> selectAllEtudiants() async {
+    List<Etudiant> listeEtu = await DBEtudiant.selectAllEtudiants();
+    if (listeEtu.isNotEmpty) {
+      IHMprincipale.afficherDesDonnees(listeEtu);
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    } else {
+      print("la table est vide");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+    }
+    await Future.delayed(Duration(seconds: 1));
   }
 
 // action pour supprimer un Etudiant selon ID

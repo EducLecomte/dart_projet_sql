@@ -23,7 +23,10 @@ class IHMprincipale {
   }
 
   static void afficherDesDonnees(List<Data> dataList) {
-    for (var data in dataList) {}
+    print(dataList.first.getEntete());
+    for (var Etudiant in dataList) {
+      print(Etudiant.getInLine());
+    }
   }
 
   // methodes de saisie

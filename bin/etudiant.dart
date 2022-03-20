@@ -36,11 +36,11 @@ class Etudiant implements Data {
 
   @override
   String getEntete() {
-    return "|  id  |  name  |  email  |  age  |";
+    return "| id | name | email | age |";
   }
 
   @override
   String getInLine() {
-    return "| $getId() | $getNom() | $getEmail() | $getAge() |";
+    return "| " + _id.toString() + " | " + _nom + " | " + _email + " | " + _age.toString() + " |";
   }
 }
