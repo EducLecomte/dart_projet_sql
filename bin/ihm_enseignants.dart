@@ -8,5 +8,6 @@ class IHMEnseignant {
       print("0- Annuler");
       choix = IHMprincipale.choixMenu(0);
     }
+    await Future.delayed(Duration(seconds: 1));
   }
 }

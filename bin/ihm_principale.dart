@@ -9,6 +9,7 @@ class IHMprincipale {
     print("");
     print("Bienvenue dans :");
     print("Bac à sable - projet SQL");
+    print("--------------------------------------------------");
   }
 
   static void quitter() {
@@ -113,12 +114,14 @@ class IHMprincipale {
       } else if (choix == 3) {
         await IHMprincipale.selectTable();
       } else if (choix == 4) {
-        await IHMprincipale.checkTable();
+        await IHMprincipale.deleteTable();
       } else if (choix == 5) {
-        await IHMprincipale.checkTable();
+        await IHMprincipale.deleteAllTables();
       }
     }
     print("Fin de l'action.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
   }
 
   // action pour creer les tables
@@ -126,6 +129,8 @@ class IHMprincipale {
     print("Création des tables manquantes dans la BDD ...");
     await DBConfig.createTables();
     print("Fin de l'opération.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
   }
 
 // action pour vérifier les tables
@@ -133,8 +138,12 @@ class IHMprincipale {
     print("Verification des tables dans la BDD ...");
     if (await DBConfig.checkTables()) {
       print("Toutes les tables sont présentes dans la BDD.");
+    } else {
+      print("Il manque des tables dans la BDD.");
     }
     print("Fin de l'opération.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
   }
 
 // action pour afficher les tables
@@ -145,6 +154,8 @@ class IHMprincipale {
       print(table);
     }
     print("Fin de l'opération.");
+    print("--------------------------------------------------");
+    await Future.delayed(Duration(seconds: 1));
   }
 
 // action pour supprimer une table
@@ -154,8 +165,13 @@ class IHMprincipale {
     if (IHMprincipale.confirmation()) {
       DBConfig.dropTable(table);
       print("Table supprimée.");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
     } else {
       print("Annulation de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
     }
   }
 
@@ -163,9 +179,14 @@ class IHMprincipale {
   static Future<void> deleteAllTables() async {
     if (IHMprincipale.confirmation()) {
       DBConfig.dropAllTable();
-      print("Table supprimée.");
+      print("Tables supprimées.");
+      print("Fin de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
     } else {
       print("Annulation de l'opération.");
+      print("--------------------------------------------------");
+      await Future.delayed(Duration(seconds: 1));
     }
   }
 }

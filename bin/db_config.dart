@@ -60,6 +60,7 @@ class DBConfig {
   static Future<bool> checkTables() async {
     bool checkAll = false;
     bool checkEtudiant = false;
+    bool checkEnseignant = false;
     try {
       MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
       String requete = "SHOW TABLES;";
@@ -70,7 +71,9 @@ class DBConfig {
             if (fields.toString() == "Etudiants") {
               checkEtudiant = true;
             }
-            // if(test pour une autre table) ...
+            if (fields.toString() == "Enseignants") {
+              checkEnseignant = true;
+            }
           }
         }
       } catch (e) {
@@ -81,7 +84,7 @@ class DBConfig {
       print(e.toString());
     }
 
-    if (checkEtudiant /*&& checkAutre ... */) {
+    if (checkEtudiant && checkEnseignant) {
       checkAll = true;
     }
     return checkAll;
