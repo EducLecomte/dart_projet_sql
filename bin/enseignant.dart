@@ -1,4 +1,6 @@
-class Enseignant {
+import 'data.dart';
+
+class Enseignant implements Data {
   int _id = 0;
   String _nom = "";
 
@@ -12,5 +14,17 @@ class Enseignant {
 
   String getNom() {
     return this._nom;
+  }
+
+  @override
+  String getEntete() {
+    // TODO: implement getEntete
+    throw UnimplementedError();
+  }
+
+  @override
+  String getInLine() {
+    // TODO: implement getInLine
+    throw UnimplementedError();
   }
 }

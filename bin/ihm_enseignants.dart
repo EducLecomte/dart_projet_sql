@@ -9,7 +9,7 @@ class IHMEnseignant {
       choix = IHMprincipale.choixMenu(0);
       print("--------------------------------------------------");
     }
-    print("Retour menu principal.");
+    print("Retour menu précédent.");
     print("--------------------------------------------------");
     await Future.delayed(Duration(seconds: 1));
   }

@@ -1,4 +1,6 @@
-class Etudiant {
+import 'data.dart';
+
+class Etudiant implements Data {
   int _id = 0;
   String _nom = "";
   String _email = "";
@@ -22,5 +24,23 @@ class Etudiant {
 
   int getAge() {
     return this._age;
+  }
+
+  bool estNull() {
+    bool estnull = false;
+    if (_id == 0 && _nom == "" && _email == "" && _age == 0) {
+      estnull = true;
+    }
+    return estnull;
+  }
+
+  @override
+  String getEntete() {
+    return "|  id  |  name  |  email  |  age  |";
+  }
+
+  @override
+  String getInLine() {
+    return "| $getId() | $getNom() | $getEmail() | $getAge() |";
   }
 }

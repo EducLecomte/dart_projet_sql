@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'data.dart';
 import 'db_config.dart';
 import 'ihm_enseignants.dart';
 import 'ihm_etudiants.dart';
@@ -14,6 +15,15 @@ class IHMprincipale {
 
   static void quitter() {
     print("Au revoir !");
+  }
+
+  static void afficherUneDonnee(Data data) {
+    print(data.getEntete());
+    print(data.getInLine());
+  }
+
+  static void afficherDesDonnees(List<Data> dataList) {
+    for (var data in dataList) {}
   }
 
   // methodes de saisie
@@ -73,6 +83,42 @@ class IHMprincipale {
     return s;
   }
 
+  // retourne un int pour saisie d'entier positif
+  static int saisieInt() {
+    bool saisieValide = false;
+    int i = -1;
+    while (!saisieValide) {
+      print("> Veuillez saisir un entier :");
+      try {
+        i = int.parse(stdin.readLineSync().toString());
+        saisieValide = true;
+      } catch (e) {
+        print("Erreur dans la saisie.");
+      }
+    }
+    return i;
+  }
+
+  // retourne un int pour saisie d'entier positif
+  static int saisieID() {
+    bool saisieValide = false;
+    int i = -1;
+    while (!saisieValide) {
+      print("> Veuillez saisir l'id correspondant:");
+      try {
+        i = int.parse(stdin.readLineSync().toString());
+        if (i > 0) {
+          saisieValide = true;
+        } else {
+          print("La valeur saisie est inférieur ou égale à zéro.");
+        }
+      } catch (e) {
+        print("Erreur dans la saisie.");
+      }
+    }
+    return i;
+  }
+
   // methode des menus et actions
   // menu d'accueil
   static Future<int> menu() async {
@@ -122,7 +168,7 @@ class IHMprincipale {
         await IHMprincipale.deleteAllTables();
       }
     }
-    print("Retour menu principal.");
+    print("Retour menu précédent.");
     print("--------------------------------------------------");
     await Future.delayed(Duration(seconds: 1));
   }
@@ -154,7 +200,7 @@ class IHMprincipale {
     List<String> listTable = await DBConfig.selectTables();
     print("Liste des tables :");
     for (var table in listTable) {
-      print(table);
+      print("- $table");
     }
     print("Fin de l'opération.");
     print("--------------------------------------------------");
