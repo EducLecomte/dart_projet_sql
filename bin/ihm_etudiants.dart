@@ -7,6 +7,7 @@ class IHMEtudiants {
       print("Menu - Gestion Etudiants");
       print("0- Annuler");
       choix = IHMprincipale.choixMenu(0);
+      print("--------------------------------------------------");
     }
     await Future.delayed(Duration(seconds: 1));
   }

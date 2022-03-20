@@ -84,6 +84,7 @@ class IHMprincipale {
       print("3- Gestion de la table Enseignants");
       print("0- Quitter");
       choix = IHMprincipale.choixMenu(3);
+      print("--------------------------------------------------");
       if (choix == 1) {
         await IHMprincipale.menuBDD();
       } else if (choix == 2) {
@@ -107,6 +108,8 @@ class IHMprincipale {
       print("5- Supprimer toutes les tables dans la BDD");
       print("0- Quitter");
       choix = IHMprincipale.choixMenu(5);
+      print("--------------------------------------------------");
+
       if (choix == 1) {
         await IHMprincipale.createTable();
       } else if (choix == 2) {
