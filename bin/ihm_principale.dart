@@ -78,7 +78,7 @@ class IHMprincipale {
   static Future<int> menu() async {
     int choix = -1;
     while (choix != 0) {
-      print("> Que voulez vous faire ?");
+      print("Menu Principal");
       print("1- Gestion de la BDD");
       print("2- Gestion de la table Etudiants");
       print("3- Gestion de la table Enseignants");
@@ -100,7 +100,7 @@ class IHMprincipale {
   static Future<void> menuBDD() async {
     int choix = -1;
     while (choix != 0) {
-      print("> Que voulez vous faire ?");
+      print("Menu - Gestion BDD");
       print("1- Création des tables de la BDD");
       print("2- Verification des tables de la BDD");
       print("3- Afficher les tables de la BDD");
@@ -122,7 +122,7 @@ class IHMprincipale {
         await IHMprincipale.deleteAllTables();
       }
     }
-    print("Fin de l'action.");
+    print("Retour menu principal.");
     print("--------------------------------------------------");
     await Future.delayed(Duration(seconds: 1));
   }

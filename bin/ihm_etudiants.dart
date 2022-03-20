@@ -9,6 +9,8 @@ class IHMEtudiants {
       choix = IHMprincipale.choixMenu(0);
       print("--------------------------------------------------");
     }
+    print("Retour menu principal.");
+    print("--------------------------------------------------");
     await Future.delayed(Duration(seconds: 1));
   }
 }
