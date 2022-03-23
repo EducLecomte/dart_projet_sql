@@ -32,8 +32,10 @@ class DBEtudiant {
       try {
         String requete = "SELECT * FROM Etudiants;";
         Results reponse = await conn.query(requete);
-        Etudiant etu = Etudiant(reponse.first['id'], reponse.first['name'], reponse.first['email'], reponse.first['age']);
-        listeEtu.add(etu);
+        for (var row in reponse) {
+          Etudiant etu = Etudiant(reponse.first['id'], reponse.first['name'], reponse.first['email'], reponse.first['age']);
+          listeEtu.add(etu);
+        }
       } catch (e) {
         log(e.toString());
       }
