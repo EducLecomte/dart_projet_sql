@@ -33,8 +33,17 @@ class DBEtudiant {
         String requete = "SELECT * FROM Etudiants;";
         Results reponse = await conn.query(requete);
         for (var row in reponse) {
-          Etudiant etu = Etudiant(reponse.first['id'], reponse.first['name'], reponse.first['email'], reponse.first['age']);
+          Etudiant etu = Etudiant(row['id'], row['name'], row['email'], row['age']);
           listeEtu.add(etu);
+
+          /*
+          // variante avec création d'étudiant depuis une liste
+          List<String> unEtu = [];
+          for (var field in row) {
+            unEtu.add(field.toString());
+          }
+          listeEtu.add(Etudiant.fromListString(unEtu));
+          */
         }
       } catch (e) {
         log(e.toString());
