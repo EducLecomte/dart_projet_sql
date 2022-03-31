@@ -151,7 +151,7 @@ class IHMprincipale {
   // methode des menus et actions
   // menu setting
   static ConnectionSettings setting() {
-    String bdd = IHMprincipale.saisieString("le nom de la bDD");
+    String bdd = IHMprincipale.saisieString("le nom de la BDD");
     String user = IHMprincipale.saisieString("l'utilisateur");
     String mdp = IHMprincipale.saisieMDP();
 
