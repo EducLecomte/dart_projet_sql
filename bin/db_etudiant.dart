@@ -6,10 +6,10 @@ import 'db_config.dart';
 import 'etudiant.dart';
 
 class DBEtudiant {
-  static Future<Etudiant> selectEtudiant(int id) async {
+  static Future<Etudiant> selectEtudiant(ConnectionSettings settings, int id) async {
     Etudiant etu = Etudiant.vide();
     try {
-      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "SELECT * FROM Etudiants WHERE id=" + id.toString() + " AND EXISTS (SELECT id FROM Etudiants WHERE id=" + id.toString() + " );";
         Results reponse = await conn.query(requete);
@@ -25,10 +25,10 @@ class DBEtudiant {
     return etu;
   }
 
-  static Future<List<Etudiant>> selectAllEtudiants() async {
+  static Future<List<Etudiant>> selectAllEtudiants(ConnectionSettings settings) async {
     List<Etudiant> listeEtu = [];
     try {
-      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "SELECT * FROM Etudiants;";
         Results reponse = await conn.query(requete);
@@ -56,9 +56,9 @@ class DBEtudiant {
     return listeEtu;
   }
 
-  static Future<void> insertEtudiant(String nom, String email, int age) async {
+  static Future<void> insertEtudiant(ConnectionSettings settings, String nom, String email, int age) async {
     try {
-      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "INSERT INTO Etudiants (name, email, age) VALUES('" + nom + "', '" + email + "', '" + age.toString() + "');";
         await conn.query(requete);
@@ -72,9 +72,9 @@ class DBEtudiant {
   }
 
   //update
-  static Future<void> updateEtudiant(int id, String nom, String email, int age) async {
+  static Future<void> updateEtudiant(ConnectionSettings settings, int id, String nom, String email, int age) async {
     try {
-      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "UPDATE Etudiants SET nom = '" + nom + ", email = '" + email + ", age = '" + age.toString() + ", ' WHERE id='" + id.toString() + "'";
         await conn.query(requete);
@@ -88,9 +88,9 @@ class DBEtudiant {
   }
 
   //delete
-  static Future<void> deleteEtudiant(int id) async {
+  static Future<void> deleteEtudiant(ConnectionSettings settings, int id) async {
     try {
-      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "DELETE FROM Etudiants WHERE id='" + id.toString() + "'";
         await conn.query(requete);
@@ -104,9 +104,9 @@ class DBEtudiant {
   }
 
   //delete all
-  static Future<void> deleteAllEtudiant() async {
+  static Future<void> deleteAllEtudiant(ConnectionSettings settings) async {
     try {
-      MySqlConnection conn = await MySqlConnection.connect(DBConfig.getSettings());
+      MySqlConnection conn = await MySqlConnection.connect(settings);
       try {
         String requete = "TRUNCATE TABLE Etudiants;";
         await conn.query(requete);
@@ -120,17 +120,17 @@ class DBEtudiant {
   }
 
   // verifie l'existance d'un etudiant selon son ID
-  static Future<bool> exist(int id) async {
+  static Future<bool> exist(ConnectionSettings settings, int id) async {
     bool exist = false;
-    if (!(await DBEtudiant.selectEtudiant(id)).estNull()) {
+    if (!(await DBEtudiant.selectEtudiant(settings, id)).estNull()) {
       exist = true;
     }
     return exist;
   }
 
   // getEtudiant
-  static Future<Etudiant> getEtudiant(int id) async {
-    dynamic r = await selectEtudiant(id);
+  static Future<Etudiant> getEtudiant(ConnectionSettings settings, int id) async {
+    dynamic r = await selectEtudiant(settings, id);
     ResultRow rr = r.first;
     return Etudiant(rr['id'], rr['nom'], rr['email'], rr['age']);
   }

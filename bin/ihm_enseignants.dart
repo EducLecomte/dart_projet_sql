@@ -1,7 +1,9 @@
+import 'package:mysql1/mysql1.dart';
+
 import 'ihm_principale.dart';
 
 class IHMEnseignant {
-  static Future<void> menu() async {
+  static Future<void> menu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
       print("Menu - Gestion Enseignants");

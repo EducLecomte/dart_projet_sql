@@ -1,9 +1,11 @@
+import 'package:mysql1/mysql1.dart';
+
 import 'db_etudiant.dart';
 import 'etudiant.dart';
 import 'ihm_principale.dart';
 
 class IHMEtudiants {
-  static Future<void> menu() async {
+  static Future<void> menu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
       print("Menu - Gestion Etudiants");
@@ -17,15 +19,15 @@ class IHMEtudiants {
       print("--------------------------------------------------");
 
       if (choix == 1) {
-        await IHMEtudiants.menuSelectEtu();
+        await IHMEtudiants.menuSelectEtu(settings);
       } else if (choix == 2) {
-        await IHMEtudiants.insertEtudiant();
+        await IHMEtudiants.insertEtudiant(settings);
       } else if (choix == 3) {
-        await IHMEtudiants.updateEtudiant();
+        await IHMEtudiants.updateEtudiant(settings);
       } else if (choix == 4) {
-        await IHMEtudiants.deleteEtudiant();
+        await IHMEtudiants.deleteEtudiant(settings);
       } else if (choix == 5) {
-        await IHMEtudiants.deleteAllEtudiants();
+        await IHMEtudiants.deleteAllEtudiants(settings);
       }
     }
     print("Retour menu précédent.");
@@ -33,7 +35,7 @@ class IHMEtudiants {
     await Future.delayed(Duration(seconds: 1));
   }
 
-  static Future<void> menuSelectEtu() async {
+  static Future<void> menuSelectEtu(ConnectionSettings settings) async {
     int choix = -1;
     while (choix != 0) {
       print("Menu - Select Etudiants");
@@ -44,9 +46,9 @@ class IHMEtudiants {
       print("--------------------------------------------------");
 
       if (choix == 1) {
-        await IHMEtudiants.selectEtudiant();
+        await IHMEtudiants.selectEtudiant(settings);
       } else if (choix == 2) {
-        await IHMEtudiants.selectAllEtudiants();
+        await IHMEtudiants.selectAllEtudiants(settings);
       }
     }
     print("Retour menu précédent.");
@@ -55,12 +57,12 @@ class IHMEtudiants {
   }
 
   // action pour ajouter un Etudiant
-  static Future<void> insertEtudiant() async {
-    String nom = IHMprincipale.saisieString();
-    String email = IHMprincipale.saisieString();
+  static Future<void> insertEtudiant(ConnectionSettings settings) async {
+    String nom = IHMprincipale.saisieString("le nom");
+    String email = IHMprincipale.saisieString("l'email");
     int age = IHMprincipale.saisieInt();
     if (IHMprincipale.confirmation()) {
-      await DBEtudiant.insertEtudiant(nom, email, age);
+      await DBEtudiant.insertEtudiant(settings, nom, email, age);
       print("Etudiant inséré dans la table.");
       print("--------------------------------------------------");
     } else {
@@ -73,35 +75,35 @@ class IHMEtudiants {
   }
 
   // action pour mettre a jour un Etudiant selon ID
-  static Future<void> updateEtudiant() async {
+  static Future<void> updateEtudiant(ConnectionSettings settings) async {
     print("Quelle Etudiant voulez vous mettre à jour ?");
     int id = IHMprincipale.saisieID();
-    if (await DBEtudiant.exist(id)) {
-      String nom = IHMprincipale.saisieString();
-      String email = IHMprincipale.saisieString();
+    if (await DBEtudiant.exist(settings, id)) {
+      String nom = IHMprincipale.saisieString("le nom");
+      String email = IHMprincipale.saisieString("l'email");
       int age = IHMprincipale.saisieInt();
       if (IHMprincipale.confirmation()) {
-        await DBEtudiant.updateEtudiant(id, nom, email, age);
+        await DBEtudiant.updateEtudiant(settings, id, nom, email, age);
         print("Etudiant $id mis à jour.");
         print("--------------------------------------------------");
       } else {
         print("Annulation de l'opération.");
         print("--------------------------------------------------");
       }
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     } else {
       print("L'étudiant $id n'existe pas.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     }
   }
 
   // action pour afficher un Etudiant selon ID
-  static Future<void> selectEtudiant() async {
+  static Future<void> selectEtudiant(ConnectionSettings settings) async {
     print("Quelle Etudiant voulez vous afficher ?");
     int id = IHMprincipale.saisieID();
-    Etudiant etu = await DBEtudiant.selectEtudiant(id);
+    Etudiant etu = await DBEtudiant.selectEtudiant(settings, id);
     if (!etu.estNull()) {
       IHMprincipale.afficherUneDonnee(etu);
       print("Fin de l'opération.");
@@ -115,8 +117,8 @@ class IHMEtudiants {
   }
 
   // action pour afficher les Etudiants
-  static Future<void> selectAllEtudiants() async {
-    List<Etudiant> listeEtu = await DBEtudiant.selectAllEtudiants();
+  static Future<void> selectAllEtudiants(ConnectionSettings settings) async {
+    List<Etudiant> listeEtu = await DBEtudiant.selectAllEtudiants(settings);
     if (listeEtu.isNotEmpty) {
       IHMprincipale.afficherDesDonnees(listeEtu);
       print("Fin de l'opération.");
@@ -126,38 +128,38 @@ class IHMEtudiants {
       print("Fin de l'opération.");
       print("--------------------------------------------------");
     }
-    await Future.delayed(Duration(seconds: 1));
+    IHMprincipale.wait();
   }
 
 // action pour supprimer un Etudiant selon ID
-  static Future<void> deleteEtudiant() async {
+  static Future<void> deleteEtudiant(ConnectionSettings settings) async {
     print("Quelle Etudiant voulez vous supprimer ?");
     int id = IHMprincipale.saisieID();
     if (IHMprincipale.confirmation()) {
-      DBEtudiant.deleteEtudiant(id);
+      DBEtudiant.deleteEtudiant(settings, id);
       print("Etudiant $id supprimé.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     } else {
       print("Annulation de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     }
   }
 
   // action pour supprimer les Etudiants
-  static Future<void> deleteAllEtudiants() async {
+  static Future<void> deleteAllEtudiants(ConnectionSettings settings) async {
     if (IHMprincipale.confirmation()) {
-      DBEtudiant.deleteAllEtudiant();
+      DBEtudiant.deleteAllEtudiant(settings);
       print("Tables supprimées.");
       print("Fin de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     } else {
       print("Annulation de l'opération.");
       print("--------------------------------------------------");
-      await Future.delayed(Duration(seconds: 1));
+      IHMprincipale.wait();
     }
   }
 }
