@@ -158,9 +158,9 @@ class IHMprincipale {
     return ConnectionSettings(
       host: 'localhost',
       port: 3306,
-      user: user,
-      password: mdp,
-      db: bdd,
+      user: user, // DartUser
+      password: mdp, // dartmdp
+      db: bdd, // DartDB
     );
   }
 
